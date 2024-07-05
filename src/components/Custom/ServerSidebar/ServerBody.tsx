@@ -94,7 +94,7 @@ function ServerBody() {
 
         <CreateChannel open={channelOpen} setOpen={setChannelOpen} />
 
-        <div className="mt-2 px-1 text-sm  flex flex-col gap-2">
+        <div className="mt-2 px-1 text-sm  flex flex-col gap-4">
           {[
             111, 222,333,4444,5555,
           ].map((item, index) => {
