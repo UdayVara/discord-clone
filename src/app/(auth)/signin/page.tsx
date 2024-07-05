@@ -77,6 +77,7 @@ function Page() {
             Sign in
           </button>
           <h5 className="text-center mt-4">
+            {/* eslint-disable-next-line padded-blocks, react/no-unescaped-entities */}
             Don't Have An Account ?{" "}
             <Link href={"/signup"} ><span className="text-blue-600">Sign up</span></Link>
             
