@@ -1,6 +1,5 @@
 "use server";
-
-import { auth, signIn } from "@/app/api/[...nextauth]/route";
+import { auth, signIn, signOut } from "../../auth";
 
 export const signinUser = async (data: any) => {
   try {
@@ -9,11 +8,11 @@ export const signinUser = async (data: any) => {
       email: "Mydemo@gmail.com0",
       password: "mypass@1234",
       role: "admin",
-      redirect:false
+      redirect: false,
     });
-    console.log("Response",res)
+    console.log("Response", res);
   } catch (error: any) {
-    console.log(error,"error")
+    console.log(error, "error");
     return {
       success: false,
       message: error.message || "Internal Server Error",
@@ -21,13 +20,12 @@ export const signinUser = async (data: any) => {
   }
 };
 
-
-export const getUser = async() => {
+export const getUser = async () => {
   try {
-    const user = await auth()
+    const user = await auth();
 
-    return {success:true,user:user?.user}
+    return { success: true, user: user?.user };
   } catch (error) {
-    return {success:false,message:"Internal Server Error"}
+    return { success: false, message: "Internal Server Error" };
   }
-}
+};
