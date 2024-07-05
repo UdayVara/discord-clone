@@ -26,7 +26,7 @@ function ServerSidebar() {
   console.debug("Params",params.channel)
   return (
     <>
-      <div className={`min-w-44 ${params && params.channel ? "md:flex hidden":"md:w-auto w-full "}  h-full  dark:bg-neutral-900/40  bg-slate-200/50 px-3`}>
+      <div className={`min-w-44 ${params && params.channel ? "md:flex hidden":"md:w-auto w-full "}  h-full flex-col  dark:bg-neutral-900/40  bg-slate-200/50 px-3`}>
         <DropdownMenu >
           <DropdownMenuTrigger className="w-full items-center flex justify-between text-base py-2 ">Code With Uday <MdExpandMore className="text-lg"/></DropdownMenuTrigger>
           <DropdownMenuContent className="w-44 dark:bg-neutral-950">

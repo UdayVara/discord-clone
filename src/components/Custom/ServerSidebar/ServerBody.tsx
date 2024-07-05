@@ -9,7 +9,7 @@ function ServerBody() {
   const [channelOpen, setChannelOpen] = useState(false);
   return (
     <>
-      <div className="flex flex-col max-h-full overflow-y-auto pt-1 pb-4">
+      <div className="flex flex-col max-h-full overflow-y-auto pt-1 pb-44">
         <div className="flex flex-row items-center justify-between">
           <h4 className="dark:text-neutral-400 text-neutral-950">Text Channels</h4>
           <FaPlus
@@ -96,7 +96,7 @@ function ServerBody() {
 
         <div className="mt-2 px-1 text-sm  flex flex-col gap-2">
           {[
-            111, 222
+            111, 222,333,4444,5555,
           ].map((item, index) => {
             return (
               <UserAvatar key={index}/>
