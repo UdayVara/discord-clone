@@ -9,7 +9,7 @@ function ServerBody() {
   const [channelOpen, setChannelOpen] = useState(false);
   return (
     <>
-      <div className="flex flex-col max-h-full overflow-y-auto pt-1 pb-44">
+      <div className="flex flex-col max-h-full overflow-y-auto pt-1 pb-40">
         <div className="flex flex-row items-center justify-between">
           <h4 className="dark:text-neutral-400 text-neutral-950">Text Channels</h4>
           <FaPlus

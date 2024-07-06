@@ -1,12 +1,16 @@
 "use client";
+import { getUser, signupUser } from "@/actions/Auth.action";
 import { signupSchema } from "@/schemas/Auth.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 function Page() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -15,7 +19,21 @@ function Page() {
     resolver: yupResolver(signupSchema),
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    try {
+      const result = await signupUser(data);
+
+      if(result.success){
+        toast.success(result.message);
+        router.replace("/");
+      }else{
+        toast.error(result.message || "Internal Server Error")
+      }
+      
+    } catch (error: any) {
+      toast.error(error?.message || "Internal Server Error");
+      console.debug("Error", error);
+    }
     console.debug("Data", data);
   };
   return (
