@@ -15,6 +15,7 @@ axiosInstance.interceptors.request.use(
       if (user) {
         console.log('server Component')
         const user:any = await auth();
+        console.log("user",user)
         access_token = user.user.token  || ''
       }
     } else {
@@ -25,9 +26,9 @@ axiosInstance.interceptors.request.use(
     console.log(access_token)
     if (access_token) {
       if (!config.headers["authorization"]) {
-        config.headers.authorization = `${access_token}`;
+        config.headers.authorization = `Bearer ${access_token}`;
       } else {
-        config.headers.authorization = `${access_token}`;
+        config.headers.authorization = `Bearer ${access_token}`;
       }
     }
 

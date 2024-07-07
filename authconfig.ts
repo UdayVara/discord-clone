@@ -15,7 +15,7 @@ export const AuthConfig: NextAuthConfig = {
               password: credentials?.password,
             });
             if (res?.data?.statusCode == 201) {
-              return { ...res?.data?.user };
+              return { ...res?.data?.user,token:res?.data?.token };
             } else {
               throw new Error(res.data?.message || "Internal Server Error");
             }

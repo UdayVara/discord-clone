@@ -53,3 +53,14 @@ export const getUser = async () => {
     return { success: false, message: "Internal Server Error" };
   }
 };
+
+
+export const signoutUser = async() => {
+  try {
+    const res = await signOut({redirect:false})
+
+    return {success:true,message:"User Signed Out"}
+  } catch (error) {
+    return {success:false,message:"Internal server error"}
+  }
+}

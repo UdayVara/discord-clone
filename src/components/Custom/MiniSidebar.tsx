@@ -11,9 +11,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { signoutUser } from "@/actions/Auth.action";
+import { useRouter } from "next/navigation";
 
 function MiniSidebar() {
   const [open, setOpen] = useState(false);
+
+  const router = useRouter();
+  const handleLogout = async () => {
+    const res = await signoutUser();
+
+    router.replace("signin");
+  };
   return (
     <>
       <div className="w-14 h-screen overflow-y-hidden bg-neutral-100/70  flex-col items-center px-1 py-2 justify-between lg:flex hidden dark:bg-neutral-900 pb-2">
@@ -36,7 +45,7 @@ function MiniSidebar() {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <SlLogout className="text-red-600" />
+                <SlLogout onClick={handleLogout} className="text-red-600" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>Logout</p>
