@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { ModeToggle } from "./ModeToggler";
 import CreateServer from "./modal/CreateServer";
@@ -13,16 +13,33 @@ import {
 } from "@/components/ui/tooltip";
 import { signoutUser } from "@/actions/Auth.action";
 import { useRouter } from "next/navigation";
+import { getServers } from "@/actions/Server.action";
+import { toast } from "sonner";
 
 function MiniSidebar() {
   const [open, setOpen] = useState(false);
-
+  const [servers,setServers] = useState([])
   const router = useRouter();
   const handleLogout = async () => {
     const res = await signoutUser();
 
     router.replace("signin");
   };
+
+  const fetchServers = async() => {
+    const res = await getServers()
+
+    if(res.success){
+      console.debug(res.servers)
+      setServers(res.servers)
+    }else{
+      toast.error(res.message || "Internal Server Error")
+    }
+  }
+
+  useEffect(()=>{
+    fetchServers()
+  },[])
   return (
     <>
       <div className="w-14 h-screen overflow-y-hidden bg-neutral-100/70  flex-col items-center px-1 py-2 justify-between lg:flex hidden dark:bg-neutral-900 pb-2">
@@ -37,8 +54,13 @@ function MiniSidebar() {
           </button>
           <hr className="mt-3 border border-black dark:border-neutral-100" />
           <div className="my-2  overflow-y-auto  ">
-            <ServerAvatar serverImage="" serverTitle="" />
-            <ServerAvatar serverImage="" serverTitle="" />
+            {
+              servers && servers.length > 0 && servers.map((item:any,index:any)=>{
+                return <ServerAvatar key={index} serverImage={item.serverImage} serverTitle={item.name} />
+              })
+            }
+            
+            {/* <ServerAvatar serverImage="" serverTitle="" /> */}
           </div>
         </div>
         <div id="footer-sidebar" className="flex flex-col gap-2 items-center ">
