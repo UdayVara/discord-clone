@@ -11,8 +11,10 @@ import {
 import { SingleDropZone } from "@/components/Dropzone/File-Dropzone";
 import { Button } from "@/components/ui/button";
 
-import { addServer } from "@/actions/Server.action";
+import { addServer, getServers } from "@/actions/Server.action";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setServers } from "@/redux/slices/serverSlice";
 
 function CreateServer({
   open,
@@ -23,7 +25,8 @@ function CreateServer({
 }) {
   const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState("");
-// toast.success("hello")
+  // toast.success("hello")
+  const dispatch = useDispatch();
   const onSubmit = async () => {
     if (!name || !file) {
       return toast.success("Name or Image Missing");
@@ -34,10 +37,15 @@ function CreateServer({
     formData.append("image", file);
     try {
       const res = await addServer(formData);
-      console.log(res,"result")
-      setOpen(false)
+      console.log(res, "result");
+      setOpen(false);
       if (res.success) {
         toast.success(res.message);
+        const result = await getServers();
+
+        if (result.success) {
+          dispatch(setServers(result.servers));
+        }
       } else {
         toast.error(res.message);
       }

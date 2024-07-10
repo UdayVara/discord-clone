@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { SingleDropZone } from "@/components/Dropzone/File-Dropzone";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -17,40 +16,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createChannels } from "@/actions/channel.action";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { editChannel } from "@/actions/channel.action";
+import { toast } from "sonner";
 
-function CreateChannel({
-  open,
+function EditChannel({
+  isOpen,
   setOpen,
+  id,
+  name,
+  type,
   refreshChannels,
 }: {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  refreshChannels: () => void;
+  isOpen: boolean;
+  setOpen: any;
+  id: string;
+  name: string;
+  type: string;
+  refreshChannels: any;
 }) {
-  const [data, setData] = useState({ name: "", type: "text" });
+  const [data, setData] = useState({ name: name, type: type });
   const [error, setError] = useState("");
-  const selectedServer = useSelector(
-    (store: RootState) => store.server.selectedServer
-  );
+
   const onSubmit = async () => {
     if (data.name !== "") {
-      const res = await createChannels({
-        ...data,
-        serverId: selectedServer.id,
-      });
+      const res = await editChannel(
+        {
+          ...data,
+        },
+        id
+      );
+      if (res.success) toast.success(res.message);
+      else toast.error(res.message);
+
       refreshChannels();
-      setData({ name: "", type: "text" });
       setOpen(false);
+      setData({ name: "", type: "text" });
     } else {
+      //   dispatch(setChannel({ id: "", name: "", type: "" }));
       setError("Name Cannot Be Empty");
     }
   };
   return (
     <Dialog
-      open={open}
+      open={isOpen}
       onOpenChange={(open) => {
         setOpen(open);
       }}
@@ -59,7 +67,7 @@ function CreateChannel({
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="mt-2 text-2xl font-bold text-center">
-            Create New Channel
+            Edit Channel
           </DialogTitle>
           <DialogDescription>
             <div className="mt-4 font-semibold flex flex-col items-start">
@@ -67,7 +75,7 @@ function CreateChannel({
               <input
                 type="text"
                 className="p-2 w-full bg-slate-200 dark:bg-neutral-800 mt-1 focus:outline-none "
-                value={data.name}
+                defaultValue={data.name}
                 onChange={(e) => {
                   {
                     setData({ ...data, name: e.target.value });
@@ -102,7 +110,16 @@ function CreateChannel({
               variant={"primary"}
               onClick={onSubmit}
             >
-              Create
+              Save
+            </Button>
+            <Button
+              className="mt-4 mr-4 md:float-right float-none md:w-auto w-full"
+              variant={"destructive"}
+              onClick={()=>{
+                setOpen(false)
+              }}
+            >
+              Cancel
             </Button>
           </DialogDescription>
         </DialogHeader>
@@ -111,4 +128,4 @@ function CreateChannel({
   );
 }
 
-export default CreateChannel;
+export default EditChannel;
