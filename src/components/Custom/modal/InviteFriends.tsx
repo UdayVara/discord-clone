@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,8 @@ import {
 import { SingleDropZone } from "@/components/Dropzone/File-Dropzone";
 import { Button } from "@/components/ui/button";
 import { IoCopy } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 function InviteFriends({
   open,
@@ -19,6 +21,10 @@ function InviteFriends({
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const selectedServer = useSelector(
+    (root: RootState) => root.server
+  ).selectedServer;
+
   return (
     <Dialog
       open={open}
@@ -40,12 +46,18 @@ function InviteFriends({
                   type="text"
                   className="p-2 w-full bg-slate-200 dark:bg-neutral-800 focus:outline-none grow "
                   disabled
-                  value={"this is random link here"}
+                  value={`${process.env.APP_URL}/join/${selectedServer.id}`}
                 />
-                <IoCopy className="text-2xl"/>
+                <IoCopy
+                  className="text-2xl"
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `${process.env.APP_URL}/join/${selectedServer.id}`
+                    );
+                  }}
+                />
               </div>
             </div>
-            
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

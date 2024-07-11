@@ -4,6 +4,10 @@ const nextConfig = {
         remotePatterns:[{
             hostname:"*"
         }]
+    },
+    env:{
+        APP_URL:"http://localhost:3000",
+        BACKEND_URL:"http://localhost:5000"
     }
 };
 
