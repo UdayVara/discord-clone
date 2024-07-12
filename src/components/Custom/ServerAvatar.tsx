@@ -10,10 +10,12 @@ function ServerAvatar({
   serverImage,
   serverTitle,
   serverId,
+  userId
 }: {
   serverImage: string;
   serverTitle: string;
   serverId: string;
+  userId:string
 }) {
   const isActive = false;
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ function ServerAvatar({
           selectedServer.id != serverId && "border-none"
         } dark:border-s dark:border-s-neutral-200 border-s-neutral-950 border-s-2 cursor-pointer`}
         onClick={() => {
-          dispatch(selectServer({ id: serverId, name: serverTitle }));
+          dispatch(selectServer({ id: serverId, name: serverTitle,userId: userId}));
         }}
       >
         <Image

@@ -47,11 +47,11 @@ export const AuthConfig: NextAuthConfig = {
       return params.token;
     },
     session(params: any) {
-      console.log("session");
+      // console.log("session");
       if (params.token.user) {
         params.session.user = params.token;
       }
-      console.log("session", params.session);
+      // console.log("session", params.session);
       return params.session.user;
     },
   },

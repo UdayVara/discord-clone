@@ -32,7 +32,7 @@ function Join({ params }: { params: { id: string } }) {
       const res = await joinServer(params.id);
       if (res.success) {
         toast.success(res.message || "Server Joined Successfully");
-        dispatch(selectServer({ id: params.id, name: server?.name || "" }));
+        dispatch(selectServer({ id: params.id, name: server?.name || "",userId:server.userId }));
         router.replace("/")
       } else {
         toast.error(res.message || "Internal Server Error");

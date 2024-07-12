@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { MdExpandMore } from "react-icons/md";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUserPlus } from "react-icons/fa6";
 import { IoSettings } from "react-icons/io5";
 import { MdManageAccounts } from "react-icons/md";
@@ -23,17 +23,74 @@ import ServerBody from "./ServerBody";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { userRoleType } from "@/redux/slices/serverSlice";
+import { getMembers, getUserRole } from "@/actions/Server.action";
+import { toast } from "sonner";
+import { getUser } from "@/actions/Auth.action";
 
 function ServerSidebar() {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
   const [channelOpen, setChannelOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
+  const [role, setRole] = useState<userRoleType>(userRoleType.guest);
+  const [members, setMembers] = useState([]);
   const params = useParams();
 
   const selectedServer = useSelector(
     (root: RootState) => root.server
   ).selectedServer;
+
+  const getRole = async () => {
+    try {
+      const user: any = await getUser();
+      if (selectedServer.userId == user?.user.id) {
+        setRole(userRoleType.moderator);
+      } else {
+        const res = await getUserRole(selectedServer.id);
+
+        if (res.success) {
+          setRole(res.role);
+        } else {
+          setRole(userRoleType.guest);
+        }
+      }
+    } catch (error) {
+      console.log("error", error);
+      setRole(userRoleType.guest);
+      toast.error("Something Went Wrong");
+    }
+  };
+
+  const fetchMembers = async () => {
+    const res = await getMembers(selectedServer.id);
+
+    if (res.success) {
+      setMembers(res.members);
+    } else {
+      toast.error(res.message || "Internal Server Error");
+    }
+  };
+
+  useEffect(() => {
+    setRole(userRoleType.guest);
+  }, [selectedServer.id]);
+
+  useEffect(() => {
+    if (role == userRoleType.moderator) {
+      fetchMembers();
+    } else {
+      setMembers([]);
+    }
+  }, [role]);
+  useEffect(() => {
+    setRole(userRoleType.guest);
+    if (selectedServer.id != "") {
+      getRole();
+    }
+  }, [selectedServer]);
+
+  console.log("Current Role", role);
 
   return (
     <>
@@ -47,34 +104,42 @@ function ServerSidebar() {
             {selectedServer.name} <MdExpandMore className="text-lg" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-44 dark:bg-neutral-950">
-            <DropdownMenuItem
-              className="flex items-center justify-between"
-              onClick={() => {
-                setInviteOpen(true);
-              }}
-            >
-              Invite People <FaUserPlus className="text-md" />
-            </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center justify-between">
-              Server Settings <IoSettings className="text-md " />
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="flex items-center justify-between"
-              onClick={() => {
-                setManageOpen(true);
-              }}
-            >
-              Manage Members <MdManageAccounts className="text-md" />
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="flex items-center justify-between"
-              onClick={() => {
-                setChannelOpen(true);
-              }}
-            >
-              Create Channel <MdCreateNewFolder className="text-md" />
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
+            {role == userRoleType.moderator && (
+              <DropdownMenuItem
+                className="flex items-center justify-between"
+                onClick={() => {
+                  setInviteOpen(true);
+                }}
+              >
+                Invite People <FaUserPlus className="text-md" />
+              </DropdownMenuItem>
+            )}
+            {role == userRoleType.moderator && (
+              <DropdownMenuItem className="flex items-center justify-between">
+                Server Settings <IoSettings className="text-md " />
+              </DropdownMenuItem>
+            )}
+            {role == userRoleType.moderator && (
+              <DropdownMenuItem
+                className="flex items-center justify-between"
+                onClick={() => {
+                  setManageOpen(true);
+                }}
+              >
+                Manage Members <MdManageAccounts className="text-md" />
+              </DropdownMenuItem>
+            )}
+            {role == userRoleType.moderator && (
+              <DropdownMenuItem
+                className="flex items-center justify-between"
+                onClick={() => {
+                  setChannelOpen(true);
+                }}
+              >
+                Create Channel <MdCreateNewFolder className="text-md" />
+              </DropdownMenuItem>
+            )}
+            {role == userRoleType.moderator && <DropdownMenuSeparator />}
             <DropdownMenuItem
               className="flex items-center justify-between text-rose-600"
               onClick={() => {
@@ -86,7 +151,7 @@ function ServerSidebar() {
           </DropdownMenuContent>
         </DropdownMenu>
         <SearchBox />
-        <ServerBody />
+        <ServerBody members={members} fetchMembers={fetchMembers} role={role} />
       </div>
 
       <InviteFriends open={inviteOpen} setOpen={setInviteOpen} />

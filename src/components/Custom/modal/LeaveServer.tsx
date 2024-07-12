@@ -44,6 +44,7 @@ function LeaveServer({
             selectServer({
               id: servers.servers[0]?.id,
               name: servers.servers[0]?.name,
+              userId: servers.servers[0]?.userId,
             })
           );
         }

@@ -8,8 +8,17 @@ import { toast } from "sonner";
 import { getChannels } from "@/actions/channel.action";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { userRoleType } from "@/redux/slices/serverSlice";
 
-function ServerBody() {
+function ServerBody({
+  members,
+  fetchMembers,
+  role,
+}: {
+  members: any[];
+  fetchMembers: any;
+  role: userRoleType;
+}) {
   const [channelOpen, setChannelOpen] = useState(false);
   const [channels, setChannels] = useState<any>();
   const server = useSelector((root: RootState) => root.server).selectedServer;
@@ -32,6 +41,8 @@ function ServerBody() {
       fetchChannels();
     }
   }, [server.id]);
+
+  // console.debug("Members", members);
   return (
     <>
       <div className="flex flex-col max-h-full overflow-y-auto pt-1 pb-40">
@@ -61,7 +72,7 @@ function ServerBody() {
                   <ChannelCard
                     refreshChannels={fetchChannels}
                     key={index}
-                    channel={{ name: item.name, id: item.id,type:item.type }}
+                    channel={{ name: item.name, id: item.id, type: item.type }}
                   />
                 );
               })}
@@ -95,7 +106,7 @@ function ServerBody() {
                   <ChannelCard
                     refreshChannels={fetchChannels}
                     key={index}
-                    channel={{ name: item.name, id: item.id,type:item.type }}
+                    channel={{ name: item.name, id: item.id, type: item.type }}
                   />
                 );
               })}
@@ -128,7 +139,7 @@ function ServerBody() {
                   <ChannelCard
                     refreshChannels={fetchChannels}
                     key={index}
-                    channel={{ name: item.name, id: item.id ,type:item.type}}
+                    channel={{ name: item.name, id: item.id, type: item.type }}
                   />
                 );
               })}
@@ -183,23 +194,36 @@ function ServerBody() {
             );
           })}
         </div> */}
-        {/* <div className="flex flex-row items-center mt-3 justify-between">
-          <h4 className="dark:text-neutral-400 text-neutral-950">Members</h4>
-          <FaPlus
+        {role == userRoleType.moderator && members.length > 0 && (
+          <>
+            <div className="flex flex-row items-center mt-3 justify-between">
+              <h4 className="dark:text-neutral-400 text-neutral-950">
+                Members
+              </h4>
+              {/* <FaPlus
             className="text-base text-neutral-400 hover:text-neutral-100 cursor-pointer transition-all"
             onClick={() => {
               setChannelOpen(true);
             }}
-          />
-        </div>
+          /> */}
+            </div>
 
-        <CreateChannel open={channelOpen} setOpen={setChannelOpen} />
-
-        <div className="mt-2 px-1 text-sm  flex flex-col gap-4">
-          {[111, 222, 333, 4444, 5555].map((item, index) => {
-            return <UserAvatar key={index} />;
-          })}
-        </div> */}
+            <div className="mt-2 px-1 text-sm  flex flex-col gap-4">
+              {members.map((item, index) => {
+                return (
+                  <UserAvatar
+                    key={index}
+                    fetchMembers={fetchMembers}
+                    name={item.users?.username}
+                    id={item.id}
+                    role={item.role}
+                    email={item?.users?.email}
+                  />
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </>
   );

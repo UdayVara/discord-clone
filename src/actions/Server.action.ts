@@ -104,3 +104,44 @@ export const leaveServer = async (id: string) => {
     };
   }
 };
+
+export const getMembers = async (id: string) => {
+  try {
+    const res = await axiosInstance.get(`/server/members/${id}`);
+
+    if (res.data.statusCode == 201) {
+      return { success: true, message: "Members Fetched Successfully",members:res.data.members };
+    } else {
+      return {
+        success: false,
+        message: res.data?.message || "Internal Server Error",
+      };
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Internal Server Error",
+    };
+  }
+};
+
+export const getUserRole = async (id: string) => {
+  try {
+    const res = await axiosInstance.get(`/server/role/${id}`);
+
+    if (res.data.statusCode == 200) {
+      console.log("Current ROle",res?.data?.role)
+      return { success: true, message: "Server Role Fetched Successfully",role:res?.data?.role };
+    } else {
+      return {
+        success: false,
+        message: res.data?.message || "Internal Server Error",
+      };
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Internal Server Error",
+    };
+  }
+};

@@ -38,7 +38,7 @@ function MiniSidebar() {
       console.debug(res.servers);
       dispatch(setServers(res.servers));
       dispatch(
-        selectServer({ id: res.servers[0].id, name: res.servers[0].name })
+        selectServer({ id: res.servers[0].id, name: res.servers[0].name,userId:res.servers[0].userId})
       );
     } else {
       toast.error(res.message || "Internal Server Error");
@@ -71,6 +71,7 @@ function MiniSidebar() {
                     key={index}
                     serverImage={item.serverImage}
                     serverTitle={item.name}
+                    userId={item.userId}
                   />
                 );
               })}
