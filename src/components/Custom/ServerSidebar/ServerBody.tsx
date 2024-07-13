@@ -25,7 +25,7 @@ function ServerBody({
   const fetchChannels = async () => {
     try {
       const res = await getChannels(server.id);
-
+      console.debug(res,"res")
       if (res.success) {
         setChannels(res.channels || { text: [], audio: [], video: [] });
       } else {
@@ -194,7 +194,7 @@ function ServerBody({
             );
           })}
         </div> */}
-        {role == userRoleType.moderator && members.length > 0 && (
+        {role == userRoleType.moderator  && (
           <>
             <div className="flex flex-row items-center mt-3 justify-between">
               <h4 className="dark:text-neutral-400 text-neutral-950">
@@ -218,6 +218,7 @@ function ServerBody({
                     id={item.id}
                     role={item.role}
                     email={item?.users?.email}
+                    memberAccountId={item?.users?.id}
                   />
                 );
               })}

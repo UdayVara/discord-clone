@@ -48,7 +48,7 @@ function ServerSidebar() {
         setRole(userRoleType.moderator);
       } else {
         const res = await getUserRole(selectedServer.id);
-
+        console.debug("Role Res",res)
         if (res.success) {
           setRole(res.role);
         } else {

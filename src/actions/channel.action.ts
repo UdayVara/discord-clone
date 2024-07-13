@@ -6,8 +6,8 @@ export const getChannels = async (serverId:string) => {
   try {
     const res = await axiosInstance.get(`/channel/${serverId}`);
 
+    // console.log("resonse",res.data)
     if (res.data?.statusCode == 201) {
-        // console.log("resonse",res.data)
       return {
         success: true,
         message: "Channels Fetched Successfully",

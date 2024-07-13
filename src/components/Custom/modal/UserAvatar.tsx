@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,20 +11,59 @@ import {
 } from "../../ui/dropdown-menu";
 import { PiDotsThreeBold } from "react-icons/pi";
 import { userRoleType } from "@/redux/slices/serverSlice";
+import { setUserRole } from "@/actions/Server.action";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { toast } from "sonner";
+import { getUser } from "@/actions/Auth.action";
 
 function UserAvatar({
   name,
   id,
   role,
   fetchMembers,
-  email
+  email,
+  memberAccountId
 }: {
   name: string;
   id: string;
-  role: userRoleType,
-  fetchMembers:any,
-  email:string
+  role: userRoleType;
+  fetchMembers: any;
+  email: string;
+  memberAccountId:string;
 }) {
+  const selectedServer = useSelector(
+    (store: RootState) => store.server
+  ).selectedServer;
+
+  const [user, setUser] = useState<any>();
+
+  const res = async () => {
+    const ses = await getUser();
+    console.debug("User", ses,id);
+    setUser(ses.user || {});
+  };
+
+  useEffect(() => {
+    res();
+  }, []);
+  const handleRoleChange = async (value: userRoleType) => {
+    try {
+      const res = await setUserRole({
+        serverId: selectedServer.id,
+        memberId: id,
+        role: value,
+      });
+
+      if (res.success) {
+        fetchMembers();
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Internal Server Error");
+    }
+  };
   // const [role, setRole] = useState("guest");
   return (
     <div className="flex flex-row gap-2 w-full items-center">
@@ -33,8 +72,8 @@ function UserAvatar({
       </div>
       <div className="flex justify-between flex-row grow gap-3">
         <div className="flex flex-col grow">
-          {name}
-          <p>{email}</p>
+          <h4>{name} <span className="text-xs text-neutral-400 inline">{memberAccountId == user?.id && "(You) "}</span></h4>
+          <p className=" dark:text-neutral-300 text-xs">{email}</p>
         </div>
         <div>
           <DropdownMenu>
@@ -50,7 +89,7 @@ function UserAvatar({
               <DropdownMenuRadioGroup
                 value={role}
                 onValueChange={(value) => {
-                  console.debug("Updated Value",value)
+                  handleRoleChange(value as userRoleType);
                 }}
               >
                 <DropdownMenuRadioItem value="guest">
