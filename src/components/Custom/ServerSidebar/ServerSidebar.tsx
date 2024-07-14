@@ -27,6 +27,7 @@ import { setRole, userRoleType } from "@/redux/slices/serverSlice";
 import { getMembers, getUserRole } from "@/actions/Server.action";
 import { toast } from "sonner";
 import { getUser } from "@/actions/Auth.action";
+import { useSocket } from "@/hooks/useSocket";
 
 function ServerSidebar() {
   const [inviteOpen, setInviteOpen] = useState(false);
@@ -40,28 +41,28 @@ function ServerSidebar() {
   const selectedServer = useSelector(
     (root: RootState) => root.server
   ).selectedServer;
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const getRole = async () => {
     try {
       const user: any = await getUser();
       if (selectedServer.userId == user?.user.id) {
         setRoleState(userRoleType.moderator);
-        dispatch(setRole(userRoleType.moderator))
+        dispatch(setRole(userRoleType.moderator));
       } else {
         const res = await getUserRole(selectedServer.id);
         console.debug("Role Res", res);
         if (res.success) {
           setRoleState(res.role);
-          dispatch(setRole(res.role))
+          dispatch(setRole(res.role));
         } else {
           setRoleState(userRoleType.guest);
-          dispatch(setRole(userRoleType.guest))
+          dispatch(setRole(userRoleType.guest));
         }
       }
     } catch (error) {
       console.log("error", error);
       setRoleState(userRoleType.guest);
-      dispatch(setRole(userRoleType.guest))
+      dispatch(setRole(userRoleType.guest));
       toast.error("Something Went Wrong");
     }
   };
