@@ -1,4 +1,5 @@
 "use server";
+import { redirect } from "next/navigation";
 import { auth, signIn, signOut } from "../../auth";
 
 export const signinUser = async (credentials: {
@@ -58,7 +59,7 @@ export const getUser = async () => {
 export const signoutUser = async() => {
   try {
     const res = await signOut({redirect:false})
-
+    redirect("/signin")
     return {success:true,message:"User Signed Out"}
   } catch (error) {
     return {success:false,message:"Internal server error"}

@@ -13,13 +13,16 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { deleteChannels } from "@/actions/channel.action";
 import EditChannel from "../modal/EditChannel";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { userRoleType } from "@/redux/slices/serverSlice";
 
 function ChannelCard({
   channel,
   refreshChannels,
 }: {
   channel: { name: string; id: any; type: string };
-  refreshChannels: () => void;
+  refreshChannels: any;
 }) {
   const router = useRouter();
   const [isOpen, setOpen] = useState(false);
@@ -36,6 +39,8 @@ function ChannelCard({
       toast.error("Internal Server Error");
     }
   };
+
+  const server = useSelector((root: RootState) => root.server);
   return (
     <>
       <div
@@ -45,44 +50,46 @@ function ChannelCard({
         }}
       >
         {channel.name}
-        <div className="hidden group-hover:flex transition-all flex-row gap-2 items-center">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <MdEdit
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpen(true);
-                  }}
-                />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Edit</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete();
-                  }}
-                >
-                  <MdDelete />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Delete</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        {server.userRole == userRoleType.moderator && (
+          <div className="hidden group-hover:flex transition-all flex-row gap-2 items-center">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <MdEdit
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpen(true);
+                    }}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Edit</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete();
+                    }}
+                  >
+                    <MdDelete />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Delete</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        )}
       </div>
 
       <EditChannel
-      refreshChannels={refreshChannels}
+        refreshChannels={refreshChannels}
         isOpen={isOpen}
         setOpen={setOpen}
         id={channel.id}

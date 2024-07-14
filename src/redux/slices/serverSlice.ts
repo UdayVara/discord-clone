@@ -5,7 +5,7 @@ export interface serverState {
   selectedServer: { id: string; name: string; userId: string };
   serverList: any[];
   selectedChannel: { id: string; name: string; type: string };
-  userRole: string;
+  userRole: userRoleType;
 }
 
 export enum userRoleType {
@@ -16,7 +16,7 @@ const initialState: serverState = {
   selectedServer: { id: "", name: "", userId: "" },
   serverList: [],
   selectedChannel: { id: "", name: "", type: "" },
-  userRole: "",
+  userRole: userRoleType.guest,
 };
 
 export const serverSlice = createSlice({
@@ -51,11 +51,11 @@ export const serverSlice = createSlice({
     resetChannel: (state) => {
       state.selectedChannel = { id: "", name: "", type: "" };
     },
-    setRole: (state, action: PayloadAction<{ role: userRoleType }>) => {
-      state.userRole = action.payload.role;
+    setRole: (state, action: PayloadAction<userRoleType>) => {
+      state.userRole = action.payload;
     },
     resetRole: (state) => {
-      state.userRole = "";
+      state.userRole = userRoleType.guest;
     },
   },
 });
@@ -68,6 +68,8 @@ export const {
   resetServers,
   setChannel,
   resetChannel,
+  setRole,
+  resetRole,
 } = serverSlice.actions;
 
 export default serverSlice.reducer;

@@ -21,9 +21,9 @@ import LeaveServer from "../modal/LeaveServer";
 import SearchBox from "./SearchBox";
 import ServerBody from "./ServerBody";
 import { useParams } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { userRoleType } from "@/redux/slices/serverSlice";
+import { setRole, userRoleType } from "@/redux/slices/serverSlice";
 import { getMembers, getUserRole } from "@/actions/Server.action";
 import { toast } from "sonner";
 import { getUser } from "@/actions/Auth.action";
@@ -33,31 +33,35 @@ function ServerSidebar() {
   const [manageOpen, setManageOpen] = useState(false);
   const [channelOpen, setChannelOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
-  const [role, setRole] = useState<userRoleType>(userRoleType.guest);
+  const [role, setRoleState] = useState<userRoleType>(userRoleType.guest);
   const [members, setMembers] = useState([]);
   const params = useParams();
 
   const selectedServer = useSelector(
     (root: RootState) => root.server
   ).selectedServer;
-
+const dispatch = useDispatch()
   const getRole = async () => {
     try {
       const user: any = await getUser();
       if (selectedServer.userId == user?.user.id) {
-        setRole(userRoleType.moderator);
+        setRoleState(userRoleType.moderator);
+        dispatch(setRole(userRoleType.moderator))
       } else {
         const res = await getUserRole(selectedServer.id);
-        console.debug("Role Res",res)
+        console.debug("Role Res", res);
         if (res.success) {
-          setRole(res.role);
+          setRoleState(res.role);
+          dispatch(setRole(res.role))
         } else {
-          setRole(userRoleType.guest);
+          setRoleState(userRoleType.guest);
+          dispatch(setRole(userRoleType.guest))
         }
       }
     } catch (error) {
       console.log("error", error);
-      setRole(userRoleType.guest);
+      setRoleState(userRoleType.guest);
+      dispatch(setRole(userRoleType.guest))
       toast.error("Something Went Wrong");
     }
   };
@@ -73,7 +77,7 @@ function ServerSidebar() {
   };
 
   useEffect(() => {
-    setRole(userRoleType.guest);
+    setRoleState(userRoleType.guest);
   }, [selectedServer.id]);
 
   useEffect(() => {
@@ -84,7 +88,7 @@ function ServerSidebar() {
     }
   }, [role]);
   useEffect(() => {
-    setRole(userRoleType.guest);
+    setRoleState(userRoleType.guest);
     if (selectedServer.id != "") {
       getRole();
     }
@@ -95,7 +99,7 @@ function ServerSidebar() {
   return (
     <>
       <div
-        className={`min-w-44 ${
+        className={`min-w-64 max-w-full ${
           params && params.channel ? "md:flex hidden" : "md:w-auto w-full "
         }  h-full flex-col  dark:bg-neutral-900/40  bg-slate-200/50 px-3`}
       >

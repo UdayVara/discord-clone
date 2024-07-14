@@ -1,5 +1,7 @@
 import axios from "axios";
 import { auth } from "./auth";
+import { signoutUser } from "@/actions/Auth.action";
+import { redirect } from "next/navigation";
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.API_URL || "http://localhost:5000/api/v1"}`// process.env.API_BASE_URL,
@@ -45,7 +47,12 @@ axiosInstance.interceptors.response.use(
   },
   async function (error) {
     // console.log('axios error:', error);
-    console.log("Axios Response : ",error.response)
+    if(error.response?.data?.statusCode == 401){
+      await signoutUser()
+      redirect("/signin")
+      console.log("Inside 403")
+    }
+    // console.log("Axios Response : ",error.response)
     return Promise.reject(
       (error.response && error.response.data) || "Something went wrong"
     );

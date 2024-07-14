@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { toast } from "sonner";
 import { getUser } from "@/actions/Auth.action";
+import { useAuth } from "@/hooks/useAuth";
 
 function UserAvatar({
   name,
@@ -23,34 +24,24 @@ function UserAvatar({
   role,
   fetchMembers,
   email,
-  memberAccountId
+  memberAccountId,
 }: {
   name: string;
   id: string;
   role: userRoleType;
   fetchMembers: any;
   email: string;
-  memberAccountId:string;
+  memberAccountId: string;
 }) {
-  const selectedServer = useSelector(
+  const server = useSelector(
     (store: RootState) => store.server
-  ).selectedServer;
+  );
 
-  const [user, setUser] = useState<any>();
-
-  const res = async () => {
-    const ses = await getUser();
-    console.debug("User", ses,id);
-    setUser(ses.user || {});
-  };
-
-  useEffect(() => {
-    res();
-  }, []);
+  const user = useAuth();
   const handleRoleChange = async (value: userRoleType) => {
     try {
       const res = await setUserRole({
-        serverId: selectedServer.id,
+        serverId: server.selectedServer.id,
         memberId: id,
         role: value,
       });
@@ -72,36 +63,43 @@ function UserAvatar({
       </div>
       <div className="flex justify-between flex-row grow gap-3">
         <div className="flex flex-col grow">
-          <h4>{name} <span className="text-xs text-neutral-400 inline">{memberAccountId == user?.id && "(You) "}</span></h4>
+          <h4>
+            {name}{" "}
+            <span className="text-xs text-neutral-400 inline">
+              {memberAccountId == user?.id && "(You) "}
+            </span>
+          </h4>
           <p className=" dark:text-neutral-300 text-xs">{email}</p>
         </div>
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <PiDotsThreeBold className="mt-3" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              side="right"
-              className="w-56 bg-slate-100 dark:bg-neutral-900/90"
-            >
-              <DropdownMenuLabel>User Role</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup
-                value={role}
-                onValueChange={(value) => {
-                  handleRoleChange(value as userRoleType);
-                }}
+        {server.userRole == userRoleType.moderator && (
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <PiDotsThreeBold className="mt-3" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="right"
+                className="w-56 bg-slate-100 dark:bg-neutral-900/90"
               >
-                <DropdownMenuRadioItem value="guest">
-                  Guest
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="moderator">
-                  Moderator
-                </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+                <DropdownMenuLabel>User Role</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuRadioGroup
+                  value={role}
+                  onValueChange={(value) => {
+                    handleRoleChange(value as userRoleType);
+                  }}
+                >
+                  <DropdownMenuRadioItem value="guest">
+                    Guest
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="moderator">
+                    Moderator
+                  </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
       </div>
     </div>
   );

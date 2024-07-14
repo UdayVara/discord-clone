@@ -2,6 +2,7 @@ import ServerSidebar from "@/components/Custom/ServerSidebar/ServerSidebar";
 import Sidebar from "@/components/Custom/MiniSidebar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { UserContextProvider } from "@/Providers/context/authContextProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <>
       <div className="flex w-full h-screen overflow-y-hidden ">
-        <Sidebar />
-        <ServerSidebar />
-        {children}
+        <UserContextProvider>
+          <Sidebar />
+          <ServerSidebar />
+          {children}
+        </UserContextProvider>
       </div>
     </>
   );
