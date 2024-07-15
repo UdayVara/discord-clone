@@ -34,21 +34,7 @@ function ManageMembers({
           </DialogTitle>
           <DialogDescription>
           <div className="mt-10 max-h-80 overflow-y-auto font-semibold flex flex-col gap-3 items-start px-2">
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
-              <UserAvatar />
+              
             </div>
             
           </DialogDescription>

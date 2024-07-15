@@ -6,9 +6,10 @@ import ChannelCard from "./ChannelCard";
 import UserAvatar from "../modal/UserAvatar";
 import { toast } from "sonner";
 import { getChannels } from "@/actions/channel.action";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { userRoleType } from "@/redux/slices/serverSlice";
+import { setChannel } from "@/redux/slices/channelSlice";
 
 function ServerBody({
   members,
@@ -21,13 +22,23 @@ function ServerBody({
 }) {
   const [channelOpen, setChannelOpen] = useState(false);
   const [channels, setChannels] = useState<any>();
-  const server = useSelector((root: RootState) => root.server).selectedServer;
+  const dispatch = useDispatch();
+  const server = useSelector((root: RootState) => root.server);
   const fetchChannels = async () => {
     try {
-      const res = await getChannels(server.id);
-      console.debug(res,"res")
+      const res:any = await getChannels(server.selectedServer.id);
+      // console.debug(res,"res")
       if (res.success) {
         setChannels(res.channels || { text: [], audio: [], video: [] });
+        dispatch(
+          setChannel({
+            channelId: res.channels.text[0].id || res.channels.audio[0].id ||res.channels.video[0].id,
+            name: res.channels.text[0].name || res.channels.audio[0].name ||res.channels.video[0].name,
+            type: res.channels[0]?.type,
+            role: server.userRole,
+            serverId: server.selectedServer.id,
+          })
+        );
       } else {
         toast.error(res.message || "Internal Server Error");
       }
@@ -37,10 +48,10 @@ function ServerBody({
   };
 
   useEffect(() => {
-    if (server.id != "") {
+    if (server.selectedServer.id != "") {
       fetchChannels();
     }
-  }, [server.id]);
+  }, [server.selectedServer.id]);
 
   // console.debug("Members", members);
   return (
@@ -194,7 +205,7 @@ function ServerBody({
             );
           })}
         </div> */}
-        {role == userRoleType.moderator  && (
+        {role == userRoleType.moderator && (
           <>
             <div className="flex flex-row items-center mt-3 justify-between">
               <h4 className="dark:text-neutral-400 text-neutral-950">

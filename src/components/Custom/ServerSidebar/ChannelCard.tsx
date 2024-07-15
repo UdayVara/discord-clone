@@ -13,9 +13,10 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { deleteChannels } from "@/actions/channel.action";
 import EditChannel from "../modal/EditChannel";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { userRoleType } from "@/redux/slices/serverSlice";
+import { setChannel } from "@/redux/slices/channelSlice";
 
 function ChannelCard({
   channel,
@@ -41,12 +42,21 @@ function ChannelCard({
   };
 
   const server = useSelector((root: RootState) => root.server);
+  const dispatch = useDispatch();
   return (
     <>
       <div
         className="w-full text-neutral-800 dark:text-neutral-400  text-sm flex flex-row items-center justify-between cursor-pointer group "
         onClick={() => {
-          router.push(`/channel/${channel.id}`);
+          dispatch(
+            setChannel({
+              channelId: channel.id,
+              name: channel.name,
+              role: server.userRole,
+              serverId: server.selectedServer.id,
+              type: channel.type,
+            })
+          );
         }}
       >
         {channel.name}

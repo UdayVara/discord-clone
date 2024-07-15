@@ -3,6 +3,7 @@
 import { selectServer } from "@/redux/slices/serverSlice";
 import { RootState } from "@/redux/store";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -23,6 +24,8 @@ function ServerAvatar({
   const selectedServer = useSelector(
     (root: RootState) => root.server
   ).selectedServer;
+
+  const router = useRouter()
   return (
     <>
       <div
@@ -31,7 +34,9 @@ function ServerAvatar({
         } dark:border-s dark:border-s-neutral-200 border-s-neutral-950 border-s-2 cursor-pointer`}
         onClick={() => {
           dispatch(selectServer({ id: serverId, name: serverTitle,userId: userId}));
+          router.replace(`/channel/${serverId}`)
         }}
+      
       >
         <Image
           alt="Failed To Load"

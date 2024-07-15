@@ -17,9 +17,9 @@ export default function Home() {
   // socket.on("connect", () => {
   //   console.debug("user connected with id", socket.id);
   // });
-  socket.on("hello", (message) => {
-    console.debug("Event Hello Received", message);
-  });
+  // socket.on("hello", (message) => {
+  //   console.debug("Event Hello Received", message);
+  // });
   // socket.on("disconnect", () => {
   //   console.debug("user disconnected with id", socket.id);
   // });

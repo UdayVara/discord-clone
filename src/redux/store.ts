@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import server from './slices/serverSlice'
+import channel from './slices/channelSlice'
 
 export const store = configureStore({
   reducer: {
-    server
+    server,
+    channel
   },
 })
 
