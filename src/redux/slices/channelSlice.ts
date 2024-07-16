@@ -32,7 +32,7 @@ export const channelSlice = createSlice({
       state.serverId = action.payload.serverId;
       state.type = action.payload.type
     },
-    resetChannel: (state, action: PayloadAction<{channelId:string,name:string,role:userRoleType,serverId:string}>) => {
+    resetChannel: (state) => {
       state.channelId = "";
       state.name = "";
       state.role = userRoleType.guest;

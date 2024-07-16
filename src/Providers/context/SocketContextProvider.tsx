@@ -7,7 +7,7 @@ import {io, Socket} from "socket.io-client"
 
 function SocketContextProvider({children}:{children:React.ReactNode}) {
      const socketConnection = io(process.env.NEXT_PUBLIC_SOCKET_URL as string,{
-      transports:["websocket"]
+      transports:["websocket","polling"]
      })
   return (
     <SocketContext.Provider value={socketConnection}>

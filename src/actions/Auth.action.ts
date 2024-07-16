@@ -1,6 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { auth, signIn, signOut } from "../../auth";
+import { NextResponse } from "next/server";
 
 export const signinUser = async (credentials: {
   email: string;
@@ -9,11 +10,11 @@ export const signinUser = async (credentials: {
   try {
     const res = await signIn("credentials", {
       ...credentials,
-      issignup:false,
+      issignup: false,
       redirect: false,
     });
-    
-    return {success:true,message:"User Sign in Successfully"}
+
+    return { success: true, message: "User Sign in Successfully" };
   } catch (error: any) {
     console.log(error?.cause?.err?.message, "error");
     return {
@@ -31,11 +32,11 @@ export const signupUser = async (credentials: {
   try {
     const res = await signIn("credentials", {
       ...credentials,
-      issignup:true,
+      issignup: true,
       redirect: false,
     });
-    
-    return {success:true,message:"User Sign in Successfully"}
+
+    return { success: true, message: "User Sign in Successfully" };
   } catch (error: any) {
     console.log(error?.cause?.err?.message, "error");
     return {
@@ -55,13 +56,14 @@ export const getUser = async () => {
   }
 };
 
-
-export const signoutUser = async() => {
+export const signoutUser = async () => {
   try {
-    const res = await signOut({redirect:false})
+    const res = await signOut({ redirect: false });
+    console.debug("signout user action");
     redirect("/signin")
-    return {success:true,message:"User Signed Out"}
+    // return {success:true,message:"User Signed Out"}
   } catch (error) {
-    return {success:false,message:"Internal server error"}
+    console.log("Signout Error", error);
+    return { success: false, message: "Internal server error" };
   }
-}
+};

@@ -46,11 +46,11 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async function (error) {
-    // console.log('axios error:', error);
+    console.log('axios error:', error.response?.data);
     if(error.response?.data?.statusCode == 401){
       await signoutUser()
-      redirect("/signin")
-      console.log("Inside 403")
+      
+      // console.log("Inside 403")
     }
     // console.log("Axios Response : ",error.response)
     return Promise.reject(

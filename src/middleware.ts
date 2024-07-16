@@ -6,9 +6,11 @@ import { getUser } from "./actions/Auth.action";
 export async function middleware(request: NextRequest) {
   const publicRoutes = ["/signup", "/signin"];
   // console.log(re)
+  // console.debug("Inside middleware")
   if (!publicRoutes.includes(request.nextUrl.pathname)) {
     const user = await getUser();
-    if (!user) {
+    // console.debug("User",user)
+    if (!user.user) {
       return NextResponse.redirect(new URL("/signin", request.url));
     }
   }

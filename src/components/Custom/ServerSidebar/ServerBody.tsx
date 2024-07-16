@@ -9,7 +9,7 @@ import { getChannels } from "@/actions/channel.action";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { userRoleType } from "@/redux/slices/serverSlice";
-import { setChannel } from "@/redux/slices/channelSlice";
+import { resetChannel, setChannel } from "@/redux/slices/channelSlice";
 
 function ServerBody({
   members,
@@ -26,19 +26,35 @@ function ServerBody({
   const server = useSelector((root: RootState) => root.server);
   const fetchChannels = async () => {
     try {
-      const res:any = await getChannels(server.selectedServer.id);
+      const res: any = await getChannels(server.selectedServer.id);
       // console.debug(res,"res")
       if (res.success) {
         setChannels(res.channels || { text: [], audio: [], video: [] });
-        dispatch(
-          setChannel({
-            channelId: res.channels.text[0].id || res.channels.audio[0].id ||res.channels.video[0].id,
-            name: res.channels.text[0].name || res.channels.audio[0].name ||res.channels.video[0].name,
-            type: res.channels[0]?.type,
-            role: server.userRole,
-            serverId: server.selectedServer.id,
-          })
-        );
+        if (
+          res.channels?.text?.length > 0 ||
+          res.channels?.audio?.length > 0 ||
+          res.channels?.video?.length > 0
+        ){
+
+        
+          dispatch(
+            setChannel({
+              channelId:
+                res.channels.text[0]?.id ||
+                res.channels.audio[0]?.id ||
+                res.channels.video[0]?.id,
+              name:
+                res.channels.text[0]?.name ||
+                res.channels.audio[0]?.name ||
+                res.channels.video[0]?.name,
+              type: res.channels[0]?.type,
+              role: server.userRole,
+              serverId: server.selectedServer.id,
+            })
+          );}
+          else{
+            dispatch(resetChannel())
+          }
       } else {
         toast.error(res.message || "Internal Server Error");
       }
@@ -205,7 +221,7 @@ function ServerBody({
             );
           })}
         </div> */}
-        {role == userRoleType.moderator && (
+        {role == userRoleType.moderator && members.length > 0 && (
           <>
             <div className="flex flex-row items-center mt-3 justify-between">
               <h4 className="dark:text-neutral-400 text-neutral-950">

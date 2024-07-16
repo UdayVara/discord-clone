@@ -55,7 +55,8 @@ export const AuthConfig: NextAuthConfig = {
       return params.session.user;
     },
   },
-  jwt: {
+  session: {
+    strategy:"jwt",
     maxAge: 24 * 60 * 60,
   },
   pages: {
