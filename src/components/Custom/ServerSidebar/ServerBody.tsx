@@ -34,9 +34,7 @@ function ServerBody({
           res.channels?.text?.length > 0 ||
           res.channels?.audio?.length > 0 ||
           res.channels?.video?.length > 0
-        ){
-
-        
+        ) {
           dispatch(
             setChannel({
               channelId:
@@ -51,10 +49,10 @@ function ServerBody({
               role: server.userRole,
               serverId: server.selectedServer.id,
             })
-          );}
-          else{
-            dispatch(resetChannel())
-          }
+          );
+        } else {
+          dispatch(resetChannel());
+        }
       } else {
         toast.error(res.message || "Internal Server Error");
       }
@@ -79,12 +77,14 @@ function ServerBody({
               <h4 className="dark:text-neutral-400 text-neutral-950">
                 Text Channels
               </h4>
-              <FaPlus
-                className="text-base text-neutral-400 hover:text-neutral-100 cursor-pointer transition-all"
-                onClick={() => {
-                  setChannelOpen(true);
-                }}
-              />
+              {role == userRoleType.moderator && (
+                <FaPlus
+                  className="text-base text-neutral-400 hover:text-neutral-100 cursor-pointer transition-all"
+                  onClick={() => {
+                    setChannelOpen(true);
+                  }}
+                />
+              )}
             </div>
 
             <CreateChannel
@@ -113,12 +113,14 @@ function ServerBody({
               <h4 className="dark:text-neutral-400 text-neutral-950">
                 Audio Channels
               </h4>
-              <FaPlus
-                className="text-base text-neutral-400 hover:text-neutral-100 cursor-pointer transition-all"
-                onClick={() => {
-                  setChannelOpen(true);
-                }}
-              />
+              {role == userRoleType.moderator && (
+                <FaPlus
+                  className="text-base text-neutral-400 hover:text-neutral-100 cursor-pointer transition-all"
+                  onClick={() => {
+                    setChannelOpen(true);
+                  }}
+                />
+              )}
             </div>
 
             <CreateChannel
@@ -146,12 +148,14 @@ function ServerBody({
               <h4 className="dark:text-neutral-400 text-neutral-950">
                 Video Channels
               </h4>
-              <FaPlus
-                className="text-base text-neutral-400 hover:text-neutral-100 cursor-pointer transition-all"
-                onClick={() => {
-                  setChannelOpen(true);
-                }}
-              />
+              {role == userRoleType.moderator && (
+                <FaPlus
+                  className="text-base text-neutral-400 hover:text-neutral-100 cursor-pointer transition-all"
+                  onClick={() => {
+                    setChannelOpen(true);
+                  }}
+                />
+              )}
             </div>
 
             <CreateChannel

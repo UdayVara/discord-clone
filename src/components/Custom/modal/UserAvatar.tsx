@@ -33,9 +33,7 @@ function UserAvatar({
   email: string;
   memberAccountId: string;
 }) {
-  const server = useSelector(
-    (store: RootState) => store.server
-  );
+  const server = useSelector((store: RootState) => store.server);
 
   const user = useAuth();
   const handleRoleChange = async (value: userRoleType) => {
@@ -58,19 +56,22 @@ function UserAvatar({
   // const [role, setRole] = useState("guest");
   return (
     <div className="flex flex-row gap-2 w-full items-center">
-      <div className="rounded-full w-9 flex items-center justify-center h-9 bg-purple-900 text-white">
-        U
-      </div>
-      <div className="flex justify-between flex-row grow gap-3">
-        <div className="flex flex-col grow">
-          <h4>
-            {name}{" "}
-            <span className="text-xs text-neutral-400 inline">
-              {memberAccountId == user?.id && "(You) "}
-            </span>
-          </h4>
-          <p className=" dark:text-neutral-300 text-xs">{email}</p>
+      <div className="flex flex-row items-center gap-3 grow">
+        <div className="rounded-full w-9 flex items-center justify-center h-9 bg-purple-900 text-white">
+          U
         </div>
+        <div className="flex justify-start flex-row grow gap-3">
+          <div className="flex flex-col  items-start grow">
+            <h4>
+              {name}{" "}
+              <span className="text-xs text-neutral-400 inline">
+                {memberAccountId == user?.id && "(You) "}
+              </span>
+            </h4>
+            <p className=" dark:text-neutral-300 text-xs">{email}</p>
+          </div>
+        </div>
+
         {server.userRole == userRoleType.moderator && (
           <div>
             <DropdownMenu>

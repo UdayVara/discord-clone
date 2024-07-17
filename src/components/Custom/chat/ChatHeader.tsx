@@ -122,8 +122,8 @@ function ChatHeader() {
             <SheetDescription>
               <div className="flex flex-col mt-5 overflow-y-auto">
               <ServerSidebar  />
-              {/* <ServerDropdown />
-                <ServerBody members={members || []} fetchMembers={fetchMembers}  role={role}/> */}
+              <ServerDropdown open={open} setOpen={setOpen} />
+                <ServerBody members={members || []} fetchMembers={fetchMembers}  role={role}/>
               </div>
             </SheetDescription>
           </SheetHeader>

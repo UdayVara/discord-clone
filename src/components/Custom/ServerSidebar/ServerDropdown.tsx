@@ -1,94 +1,67 @@
-"use client"
- 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
- 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+"use client";
+
+import { useState } from "react";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
- 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-]
- 
-export function ServerDropdown() {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
- 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { selectServer } from "@/redux/slices/serverSlice";
+import { useRouter } from "next/navigation";
+
+export function ServerDropdown({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const [value, setValue] = useState("");
+  const server = useSelector((store: RootState) => store.server);
+  const dispatch = useDispatch();
+  const router = useRouter();
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between mb-4"
-        >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select Server..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandList>
-            <CommandGroup>
-              {frameworks.map((framework) => (
-                <CommandItem
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {framework.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-        </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  )
+    <div className="mb-5">
+      <Select
+        defaultValue={server.selectedServer.id}
+        onValueChange={(value) => {
+          if (value != "") {
+            const findServer = server.serverList.find(
+              (item) => item.id == value
+            );
+            dispatch(
+              selectServer({
+                id: findServer.id,
+                name: findServer.name,
+                userId: findServer.userId,
+              })
+            );
+            setOpen(false);
+
+            router.push(`/channel/${value}`);
+          }
+        }}
+      >
+        <SelectTrigger className="w-full dark:bg-neutral-800 outline-none focus:outline-none focus:border-none ring-0 focus:ring-0">
+          <SelectValue
+            className="dark:bg-neutral-800 outline-none focus:outline-none"
+            placeholder="Select Server"
+          />
+        </SelectTrigger>
+        <SelectContent className="dark:bg-neutral-800">
+          {server.serverList.map((item, index) => {
+            return (
+              <SelectItem key={index} value={item.id}>
+                {item.name}
+              </SelectItem>
+            );
+          })}
+        </SelectContent>
+      </Select>
+    </div>
+  );
 }
