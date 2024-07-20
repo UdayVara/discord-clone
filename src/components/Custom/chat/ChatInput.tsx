@@ -36,7 +36,7 @@ function ChatInput() {
           </div>
         </div>
         <EmojiPicker
-         
+         autoFocusSearch={false}
           style={{ width: "100% !important",maxHeight:"40vh !important" }}
           open={open}
           className={`${open ? "scale-100" : "scale-0"}`}
