@@ -91,7 +91,7 @@ function ChatHeader() {
 
   return (
     <>
-      <div className="w-full flex-row border-b py-3 px-2 flex justify-between items-center">
+      {channel.channelId && <div className="w-full flex-row border-b py-3 px-2 flex justify-between items-center">
         <div className="flex items-center gap-3 dark:text-neutral-300 text-neutral-700">
           <GiHamburgerMenu
             onClick={() => {
@@ -101,14 +101,14 @@ function ChatHeader() {
           />
            {channel.channelId &&  "#" + channel.name}
         </div>
+        <Badge variant={"default"}>
         {socket && socket.connected ? (
-          <Badge variant={"default"}>
-            {socket.io.engine.transport.name || "Connected"}
+            socket.io.engine.transport.name || "Connected"
+          ) : (
+            "Not Connected"
+          )}
           </Badge>
-        ) : (
-          <Badge variant={"destructive"}>Not Connected</Badge>
-        )}
-      </div>
+      </div>}
       <Sheet
         open={open}
         onOpenChange={(open) => {

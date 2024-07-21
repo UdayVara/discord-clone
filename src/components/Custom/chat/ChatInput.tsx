@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 
 function ChatInput() {
   const [open, setOpen] = useState(false);
-
+  const [text,setText] = useState("")
   const theme: any = useTheme();
   return (
     <>
@@ -24,6 +24,10 @@ function ChatInput() {
           />
           <Textarea
             rows={1}
+            onChange={(e)=>{
+              setText(e.target.value)
+            }}
+            value={text}
             placeholder="Enter Message Here"
             className="grow resize-none focus-visible:ring-0 border-0 ouline-none min-h-full text-base pt-3  outline-none dark:bg-neutral-900/70 focus-visible:ring-offset-0"
           />
@@ -39,6 +43,9 @@ function ChatInput() {
          autoFocusSearch={false}
           style={{ width: "100% !important",maxHeight:"40vh !important" }}
           open={open}
+          onEmojiClick={(emoji)=>{
+            setText(text + emoji.emoji)
+          }}
           className={`${open ? "scale-100" : "scale-0"}`}
           theme={theme.resolvedTheme || "dark"}
         />
