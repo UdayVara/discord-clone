@@ -27,7 +27,7 @@ function ChatHeader() {
   const channel = useSelector((root: RootState) => root.channel);
   const [open, setOpen] = useState(false);
   const socket = useSocket();
-  console.log(socket.connected);
+  // console.log(socket.connected);
   const [role, setRoleState] = useState<userRoleType>(userRoleType.guest);
   const [members, setMembers] = useState([]);
   const params = useParams();

@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { userRoleType } from "@/redux/slices/serverSlice";
 import { setChannel } from "@/redux/slices/channelSlice";
+import { useSocket } from "@/hooks/useSocket";
 
 function ChannelCard({
   channel,
@@ -26,6 +27,7 @@ function ChannelCard({
   refreshChannels: any;
 }) {
   const router = useRouter();
+  const socket = useSocket();
   const [isOpen, setOpen] = useState(false);
   const handleDelete = async () => {
     try {
@@ -57,6 +59,9 @@ function ChannelCard({
               type: channel.type,
             })
           );
+          socket.emit("join", {
+            channelId: channel.id,
+          });
         }}
       >
         {channel.name}

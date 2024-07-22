@@ -20,13 +20,13 @@ export default function RootLayout({
   return (
     <>
       <div className="flex w-full h-screen overflow-y-hidden ">
-        <SocketContextProvider>
-          <UserContextProvider>
+        <UserContextProvider>
+          <SocketContextProvider>
             <Sidebar />
             <ServerSidebar />
             {children}
-          </UserContextProvider>
-        </SocketContextProvider>
+          </SocketContextProvider>
+        </UserContextProvider>
       </div>
     </>
   );

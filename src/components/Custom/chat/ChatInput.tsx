@@ -7,11 +7,24 @@ import { IoSend } from "react-icons/io5";
 import { GrEmoji } from "react-icons/gr";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import { useTheme } from "next-themes";
+import { useSocket } from "@/hooks/useSocket";
+import { toast } from "sonner";
 
 function ChatInput() {
   const [open, setOpen] = useState(false);
   const [text,setText] = useState("")
   const theme: any = useTheme();
+  const socket = useSocket()
+
+
+  const getError  = () => {
+    socket.emit("get-error")
+  }
+
+  // socket.on("error",(data)=>{
+  //   console.debug("Error ",data)
+  //   toast.error("Error Event Received")
+  // })
   return (
     <>
       <div className="flex-col flex w-full">
@@ -36,7 +49,9 @@ function ChatInput() {
               <input type="file" name="" className="w-full h-full absolute opacity-0" id="" />
             <FaFileAlt className="text-5xl p-4    " />
             </div>
-            <IoSend className="text-5xl p-3 text-indigo-600 " />
+            <IoSend className="text-5xl p-3 text-indigo-600 " onClick={()=>{
+              getError()
+            }}/>
           </div>
         </div>
         <EmojiPicker
