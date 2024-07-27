@@ -39,16 +39,18 @@ function MiniSidebar() {
     if (res.success) {
       dispatch(setServers(res.servers));
       if (params.serverId) {
-        const findServer = res.servers.find(
+        const findServer = res?.servers?.find(
           (item: any) => item.id == params.channel
         );
-        dispatch(
-          selectServer({
-            id: findServer.id,
-            name: findServer.name,
-            userId: findServer.userId,
-          })
-        );
+        if (findServer) {
+          dispatch(
+            selectServer({
+              id: findServer?.id,
+              name: findServer?.name,
+              userId: findServer?.userId,
+            })
+          );
+        }
       } else {
         dispatch(
           selectServer({

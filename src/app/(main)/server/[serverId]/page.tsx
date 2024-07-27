@@ -1,4 +1,5 @@
 "use client";
+import ChatBody from "@/components/Custom/chat/ChatBody";
 import ChatHeader from "@/components/Custom/chat/ChatHeader";
 import ChatInput from "@/components/Custom/chat/ChatInput";
 import { RootState } from "@/redux/store";
@@ -12,7 +13,7 @@ export default function Page({ params }: { params: { serverId: string } }) {
         {selectedChannel.channelId && selectedChannel.channelId != "" ? (
           <>
             <ChatHeader />
-            
+            <ChatBody />
             <ChatInput />
           </>
         ) : (

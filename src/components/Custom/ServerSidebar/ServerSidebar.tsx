@@ -101,7 +101,7 @@ function ServerSidebar() {
     <>
       <div
         className={`min-w-64 max-w-full ${
-          params && params.channel ? "md:flex hidden" : "md:w-auto w-full "
+          params && params.serverId ? "md:flex hidden" : "md:w-auto w-full "
         }  h-full flex-col  dark:bg-neutral-900/40  bg-slate-200/50 px-3`}
       >
         <DropdownMenu>
