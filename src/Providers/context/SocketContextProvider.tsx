@@ -14,7 +14,8 @@ function SocketContextProvider({ children }: { children: React.ReactNode }) {
     socketConnection = io(process.env.NEXT_PUBLIC_SOCKET_URL as string, {
       transports: ["websocket", "polling"],
       auth: {
-        token: "Bearer " + user.token
+        token: "Bearer " + user.token,
+        id:user.id
       },
     });
 

@@ -12,7 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { signoutUser } from "@/actions/Auth.action";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { getServers } from "@/actions/Server.action";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +24,7 @@ function MiniSidebar() {
   // const [servers, setServers] = useState([]);
   const servers = useSelector((root: RootState) => root.server).serverList;
   const dispatch = useDispatch();
+  const params = useParams();
   const router = useRouter();
   const handleLogout = async () => {
     const res = await signoutUser();
@@ -31,15 +32,32 @@ function MiniSidebar() {
     router.replace("signin");
   };
 
+  console.debug("Params", params);
   const fetchServers = async () => {
     const res = await getServers();
 
     if (res.success) {
-      console.debug(res.servers);
       dispatch(setServers(res.servers));
-      dispatch(
-        selectServer({ id: res.servers[0].id, name: res.servers[0].name,userId:res.servers[0].userId})
-      );
+      if (params.serverId) {
+        const findServer = res.servers.find(
+          (item: any) => item.id == params.channel
+        );
+        dispatch(
+          selectServer({
+            id: findServer.id,
+            name: findServer.name,
+            userId: findServer.userId,
+          })
+        );
+      } else {
+        dispatch(
+          selectServer({
+            id: res.servers[0].id,
+            name: res.servers[0].name,
+            userId: res.servers[0].userId,
+          })
+        );
+      }
     } else {
       toast.error(res.message || "Internal Server Error");
     }
@@ -75,12 +93,14 @@ function MiniSidebar() {
                   />
                 );
               })}
-            
 
             {/* <ServerAvatar serverImage="" serverTitle="" /> */}
           </div>
         </div>
-        <div id="footer-sidebar" className=" z-2 absolute bottom-2 flex flex-col gap-2 items-center ">
+        <div
+          id="footer-sidebar"
+          className=" z-2 absolute bottom-2 flex flex-col gap-2 items-center "
+        >
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>

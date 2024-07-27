@@ -89,26 +89,33 @@ function ChatHeader() {
     }
   }, [selectedServer]);
 
+  const user = useAuth();
   return (
     <>
-      {channel.channelId && <div className="w-full flex-row border-b py-3 px-2 flex justify-between items-center">
-        <div className="flex items-center gap-3 dark:text-neutral-300 text-neutral-700">
-          <GiHamburgerMenu
-            onClick={() => {
-              setOpen(!open);
-            }}
-            className="md:hidden block"
-          />
-           {channel.channelId &&  "#" + channel.name}
+      {channel.channelId && (
+        <div className="w-full flex-row border-b py-3 px-2 flex justify-between items-center">
+          <div className="flex items-center gap-3 dark:text-neutral-300 text-neutral-700">
+            <GiHamburgerMenu
+              onClick={() => {
+                setOpen(!open);
+              }}
+              className="md:hidden block"
+            />
+            <div className="flex flex-row items-center md:gap-3 gap-2">
+              <div className="rounded-full w-9 flex items-center justify-center h-9 bg-purple-900 text-white">
+                {user?.username?.charAt(0)?.toUpperCase()}
+              </div>
+              {user?.username?.charAt(0)?.toUpperCase() +
+                user?.username?.slice(1)}
+            </div>
+          </div>
+          <h3  className={`${socket.connected ? (socket.io.engine.transport.name == "websocket" ? "bg-green-600 " : "bg-yellow-600" ) : "bg-red-600" } py-2 px-3 rounded-xl text-sm`}>
+            {socket && socket.connected
+              ? socket.io.engine.transport.name || "Connected"
+              : "Not Connected"}
+          </h3>
         </div>
-        <Badge variant={"default"}>
-        {socket && socket.connected ? (
-            socket.io.engine.transport.name || "Connected"
-          ) : (
-            "Not Connected"
-          )}
-          </Badge>
-      </div>}
+      )}
       <Sheet
         open={open}
         onOpenChange={(open) => {
@@ -121,9 +128,13 @@ function ChatHeader() {
             <SheetTitle>Discord</SheetTitle>
             <SheetDescription>
               <div className="flex flex-col mt-5 overflow-y-auto">
-              <ServerSidebar  />
-              <ServerDropdown open={open} setOpen={setOpen} />
-                <ServerBody members={members || []} fetchMembers={fetchMembers}  role={role}/>
+                <ServerSidebar />
+                <ServerDropdown open={open} setOpen={setOpen} />
+                <ServerBody
+                  members={members || []}
+                  fetchMembers={fetchMembers}
+                  role={role}
+                />
               </div>
             </SheetDescription>
           </SheetHeader>

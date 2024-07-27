@@ -58,7 +58,7 @@ function UserAvatar({
     <div className="flex flex-row gap-2 w-full items-center">
       <div className="flex flex-row items-center gap-3 grow">
         <div className="rounded-full w-9 flex items-center justify-center h-9 bg-purple-900 text-white">
-          U
+          {name?.charAt(0)?.toUpperCase()}
         </div>
         <div className="flex justify-start flex-row grow gap-3">
           <div className="flex flex-col  items-start grow">

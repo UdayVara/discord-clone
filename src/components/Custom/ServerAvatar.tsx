@@ -34,7 +34,7 @@ function ServerAvatar({
         } dark:border-s dark:border-s-neutral-200 border-s-neutral-950 border-s-2 cursor-pointer`}
         onClick={() => {
           dispatch(selectServer({ id: serverId, name: serverTitle,userId: userId}));
-          router.replace(`/channel/${serverId}`)
+          router.replace(`/server/${serverId}`)
         }}
       
       >

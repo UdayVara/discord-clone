@@ -24,16 +24,16 @@ export default function Home() {
   //   console.debug("user disconnected with id", socket.id);
   // });
 
-socket.on("connect",()=>{
-  console.debug("User connected page")
-})
-socket?.on("disconnect",()=>{
-  console.debug("User di page")
-})
+// socket.on("connect",()=>{
+//   console.debug("User connected page")
+// })
+// socket?.on("disconnect",()=>{
+//   console.debug("User di page")
+// })
 
 
 
-  console.debug("Hello world")
+  // console.debug("Hello world")
 
   // socket.connected
   return (

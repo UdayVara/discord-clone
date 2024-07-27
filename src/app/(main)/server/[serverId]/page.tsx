@@ -4,7 +4,7 @@ import ChatInput from "@/components/Custom/chat/ChatInput";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 
-export default function Page({ params }: { params: { channel: string } }) {
+export default function Page({ params }: { params: { serverId: string } }) {
   const selectedChannel = useSelector((store: RootState) => store.channel);
   return (
     <>
@@ -12,9 +12,7 @@ export default function Page({ params }: { params: { channel: string } }) {
         {selectedChannel.channelId && selectedChannel.channelId != "" ? (
           <>
             <ChatHeader />
-            <div className="chat-body grow">
-              Chats here
-            </div>
+            
             <ChatInput />
           </>
         ) : (

@@ -42,7 +42,7 @@ export function ServerDropdown({
             );
             setOpen(false);
 
-            router.push(`/channel/${value}`);
+            router.push(`/server/${value}`);
           }
         }}
       >
