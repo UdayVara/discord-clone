@@ -32,12 +32,7 @@ function ChatInput() {
     setOpen(false)
   };
 
-  useEffect(() => {
-    socket.on("recieve-messages", (data) => {
-      console.debug("Message Received ", data);
-      toast.success("Message Received");
-    });
-  }, []);
+   
 
   return (
     <>

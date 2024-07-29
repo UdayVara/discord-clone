@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import {
@@ -43,6 +43,16 @@ function ChannelCard({
     }
   };
 
+  const selectedChannelId = useSelector((store:RootState)=>store.channel).channelId
+
+  useEffect(() => {
+    if (channel.id != "") {
+      socket.emit("join", {
+        channelId: selectedChannelId,
+      });
+    }
+  }, [selectedChannelId]);
+
   const server = useSelector((root: RootState) => root.server);
   const dispatch = useDispatch();
   return (
@@ -59,9 +69,6 @@ function ChannelCard({
               type: channel.type,
             })
           );
-          socket.emit("join", {
-            channelId: channel.id,
-          });
         }}
       >
         {channel.name}

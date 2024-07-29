@@ -32,17 +32,16 @@ function MiniSidebar() {
     router.replace("signin");
   };
 
-  console.debug("Params", params);
   const fetchServers = async () => {
     const res = await getServers();
 
     if (res.success) {
       dispatch(setServers(res.servers));
       if (params.serverId) {
-        const findServer = res?.servers?.find(
-          (item: any) => item.id == params.channel
+        const findServer = await res?.servers?.find(
+          (item: any) => item.id == params.serverId
         );
-        if (findServer) {
+        // if (findServer) {
           dispatch(
             selectServer({
               id: findServer?.id,
@@ -50,7 +49,7 @@ function MiniSidebar() {
               userId: findServer?.userId,
             })
           );
-        }
+        // }
       } else {
         dispatch(
           selectServer({
@@ -67,7 +66,7 @@ function MiniSidebar() {
 
   useEffect(() => {
     fetchServers();
-  }, []);
+  }, [router]);
   return (
     <>
       <div className="w-14 relative h-screen overflow-y-hidden bg-neutral-100/70  flex-col items-center px-1 py-2 justify-between lg:flex hidden dark:bg-neutral-900 pb-2">

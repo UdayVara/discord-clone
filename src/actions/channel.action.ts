@@ -120,3 +120,27 @@ export const searchChannelsMembers = async (
     };
   }
 };
+
+export const getChats = async (channelId: string) => {
+  try {
+    const res = await axiosInstance.get(`/channel/chats/${channelId}`);
+    // console.debug(res,"REsult")
+    if (res.data?.statusCode == 200) {
+      return {
+        success: true,
+        message: "Chats Fetched Successfully",
+        chats: res?.data?.chats,
+      };
+    } else {
+      return {
+        success: false,
+        message: res?.data?.message || "Failed to Get Messages",
+      };
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Internal Server Error",
+    };
+  }
+};
