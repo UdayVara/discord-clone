@@ -25,6 +25,7 @@ function UserAvatar({
   fetchMembers,
   email,
   memberAccountId,
+  owner
 }: {
   name: string;
   id: string;
@@ -32,6 +33,7 @@ function UserAvatar({
   fetchMembers: any;
   email: string;
   memberAccountId: string;
+  owner?:boolean
 }) {
   const server = useSelector((store: RootState) => store.server);
 
@@ -65,42 +67,43 @@ function UserAvatar({
             <h4>
               {name}{" "}
               <span className="text-xs text-neutral-400 inline">
-                {memberAccountId == user?.id && "(You) "}
+                {memberAccountId == user?.id && "(You) "} {owner && "(Owner) "}
               </span>
             </h4>
             <p className=" dark:text-neutral-300 text-xs">{email}</p>
           </div>
         </div>
 
-        {server.userRole == userRoleType.moderator && (
-          <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <PiDotsThreeBold className="mt-3" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="right"
-                className="w-56 bg-slate-100 dark:bg-neutral-900/90"
-              >
-                <DropdownMenuLabel>User Role</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuRadioGroup
-                  value={role}
-                  onValueChange={(value) => {
-                    handleRoleChange(value as userRoleType);
-                  }}
+        {server.userRole == userRoleType.moderator &&
+          memberAccountId !== user?.id && (
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <PiDotsThreeBold className="mt-3" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="right"
+                  className="w-56 bg-slate-100 dark:bg-neutral-900/90"
                 >
-                  <DropdownMenuRadioItem value="guest">
-                    Guest
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="moderator">
-                    Moderator
-                  </DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        )}
+                  <DropdownMenuLabel>User Role</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuRadioGroup
+                    value={role}
+                    onValueChange={(value) => {
+                      handleRoleChange(value as userRoleType);
+                    }}
+                  >
+                    <DropdownMenuRadioItem value="guest">
+                      Guest
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="moderator">
+                      Moderator
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
       </div>
     </div>
   );
