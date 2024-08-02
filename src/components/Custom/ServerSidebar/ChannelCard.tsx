@@ -67,6 +67,7 @@ function ChannelCard({
               role: server.userRole,
               serverId: server.selectedServer.id,
               type: channel.type,
+              isPersonal:false
             })
           );
         }}

@@ -32,7 +32,7 @@ function ChatBody() {
 
   const fetchChats = async () => {
     try {
-      const res = await getChats(channel.channelId);
+      const res = await getChats(channel.channelId,channel.isPersonal);
 
       if (res.success) {
         setChats(res.chats);
@@ -46,7 +46,7 @@ function ChatBody() {
 
   useEffect(() => {
     if (channel.channelId) {
-      fetchChats();
+      fetchChats();  
     }
   }, [channel.channelId]);
 

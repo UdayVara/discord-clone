@@ -121,9 +121,11 @@ export const searchChannelsMembers = async (
   }
 };
 
-export const getChats = async (channelId: string) => {
+export const getChats = async (channelId: string, isPersonal: boolean) => {
   try {
-    const res = await axiosInstance.get(`/channel/chats/${channelId}`);
+    const res = await axiosInstance.get(
+      `/channel/chats/${channelId}?isPersonal=${isPersonal}`
+    );
     // console.debug(res,"REsult")
     if (res.data?.statusCode == 200) {
       return {
@@ -138,6 +140,7 @@ export const getChats = async (channelId: string) => {
       };
     }
   } catch (error: any) {
+    console.log(error, "Fetch Chats Error");
     return {
       success: false,
       message: error?.message || "Internal Server Error",

@@ -27,6 +27,7 @@ function ChatInput() {
     socket.emit("send-message", {
       channelId: channel.channelId,
       message: text,
+      isPersonal:channel.isPersonal
     });
     setText("")
     setOpen(false)

@@ -6,7 +6,8 @@ export interface channelState {
   name: string;
   role: userRoleType;
   serverId: string;
-  type:string
+  type:string,
+  isPersonal:boolean
 }
 
 export enum userRoleType {
@@ -18,19 +19,21 @@ const initialState: channelState = {
   name: "",
   role: userRoleType.guest,
   serverId: "",
-  type:""
+  type:"",
+  isPersonal:false
 };
 
 export const channelSlice = createSlice({
   name: "selected server",
   initialState,
   reducers: {
-    setChannel: (state, action: PayloadAction<{channelId:string,name:string,role:userRoleType,serverId:string,type:string}>) => {
+    setChannel: (state, action: PayloadAction<{channelId:string,name:string,role:userRoleType,serverId:string,type:string,isPersonal:boolean}>) => {
       state.channelId = action.payload.channelId;
       state.name = action.payload.name;
       state.role = action.payload.role;
       state.serverId = action.payload.serverId;
       state.type = action.payload.type
+      state.isPersonal = action.payload.isPersonal
     },
     resetChannel: (state) => {
       state.channelId = "";
@@ -38,6 +41,7 @@ export const channelSlice = createSlice({
       state.role = userRoleType.guest;
       state.serverId = "";
       state.type = ""
+      state.isPersonal=false
     },
   },
 });

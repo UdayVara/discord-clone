@@ -250,6 +250,7 @@ function ServerBody({
                     role={item.role}
                     email={item?.users?.email}
                     memberAccountId={item?.users?.id}
+                    owner={item?.owner}
                   />
                 );
               })}

@@ -3,6 +3,8 @@ import { useSocket } from "@/hooks/useSocket";
 import { RootState } from "@/redux/store";
 import React, { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { AiFillAudio } from "react-icons/ai";
+import { FaVideo } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Sheet,
@@ -12,6 +14,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { Badge } from "@/components/ui/badge";
 import ServerBody from "../ServerSidebar/ServerBody";
 import { useParams } from "next/navigation";
@@ -109,11 +118,39 @@ function ChatHeader() {
                 user?.username?.slice(1)}
             </div>
           </div>
-          <h3  className={`${socket.connected ? (socket.io.engine.transport.name == "websocket" ? "bg-green-600 " : "bg-yellow-600" ) : "bg-red-600" } py-2 px-3 rounded-xl text-sm`}>
-            {socket && socket.connected
-              ? socket.io.engine.transport.name || "Connected"
-              : "Not Connected"}
-          </h3>
+          <div className="flex flex-row items-center gap-3">
+            {channel.type == "audio" && <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger><AiFillAudio className="text-2xl cursor-pointer text-neutral-400 hover:text-white transition-all" /></TooltipTrigger>
+                <TooltipContent>
+                  <p>Audio Chat</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>}
+            {channel.type == "video" && <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger><FaVideo className="text-2xl cursor-pointer text-neutral-400 hover:text-white transition-all" /></TooltipTrigger>
+                <TooltipContent>
+                  <p>Video Chat</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>}
+
+            
+            <h3
+              className={`${
+                socket.connected
+                  ? socket.io.engine.transport.name == "websocket"
+                    ? "bg-green-600 "
+                    : "bg-yellow-600"
+                  : "bg-red-600"
+              } py-2 px-3 rounded-xl text-sm`}
+            >
+              {socket && socket.connected
+                ? socket.io.engine.transport.name || "Connected"
+                : "Not Connected"}
+            </h3>
+          </div>
         </div>
       )}
       <Sheet
