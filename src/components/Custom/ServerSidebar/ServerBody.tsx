@@ -48,6 +48,7 @@ function ServerBody({
               type: res.channels[0]?.type,
               role: server.userRole,
               serverId: server.selectedServer.id,
+              isPersonal:false,
             })
           );
         } else {
