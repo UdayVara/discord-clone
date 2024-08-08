@@ -41,7 +41,7 @@ function MiniSidebar() {
         const findServer = await res?.servers?.find(
           (item: any) => item.id == params.serverId
         );
-        // if (findServer) {
+        if (findServer) {
           dispatch(
             selectServer({
               id: findServer?.id,
@@ -49,15 +49,17 @@ function MiniSidebar() {
               userId: findServer?.userId,
             })
           );
-        // }
+        }
       } else {
-        dispatch(
-          selectServer({
-            id: res.servers[0].id,
-            name: res.servers[0].name,
-            userId: res.servers[0].userId,
-          })
-        );
+        if (res.servers.length > 0) {
+          dispatch(
+            selectServer({
+              id: res.servers[0].id,
+              name: res.servers[0].name,
+              userId: res.servers[0].userId,
+            })
+          );
+        }
       }
     } else {
       toast.error(res.message || "Internal Server Error");

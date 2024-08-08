@@ -40,7 +40,7 @@ function ServerAvatar({
       >
         <Image
           alt="Failed To Load"
-          src={"http://localhost:5000" + `/${serverImage}`}
+          src={`${serverImage}`}
           width={1000}
           height={1000}
           className="w-full rounded-2xl max-w-[90%] ml-auto hover:rounded-full transition-all"
