@@ -9,7 +9,7 @@ export default function Page({ params }: { params: { serverId: string } }) {
   const selectedChannel = useSelector((store: RootState) => store.channel);
   return (
     <>
-      <div className="w-full h-screen flex flex-col md:pb-0 pb-6">
+      <div className="w-full h-screen flex flex-col md:pb-0 pb-1">
         {selectedChannel.channelId && selectedChannel.channelId != "" ? (
           <>
             <ChatHeader />

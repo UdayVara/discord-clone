@@ -75,6 +75,7 @@ function ChatInput() {
             <input
               type="file"
               className="w-full h-full absolute opacity-0"
+              accept=".jpg,.png,.jpeg,.gif,.webp"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
             />
             <FaFileAlt className="text-5xl p-4" />

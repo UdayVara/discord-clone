@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { useSocket } from "@/hooks/useSocket";
-
+import Image from "next/image";
 function ChatBody() {
   const channel = useSelector((store: RootState) => store.channel);
   const [chats, setChats] = useState<any[]>([]);
@@ -20,7 +20,7 @@ function ChatBody() {
     });
 
     socket.on("new-notification",(notification)=>{
-      
+      console.debug("notification Recieved")
       if(notification?.success){
         toast.success(notification?.message)
       }else{
@@ -71,15 +71,19 @@ function ChatBody() {
           chats.length > 0 &&
           chats.map((chat, index) => {
             return (
-              <div key={index} className="flex flex-row gap-2 items-start">
+              <div key={index} className={`flex flex-row items-start gap-2 ${chat.fileurl?"items-end":"items-start"}`}>
                 <div className="rounded-full w-7 flex items-center justify-center h-7 bg-purple-900 text-white text-xs mt-3">
                   {chat?.user?.username?.charAt(0)?.toUpperCase()}
                 </div>
                 <div className="flex flex-col">
-                  <h1 className=" text-[11px] dark:text-neutral-300">
+                  <h1 className=" text-[11px]  dark:text-neutral-300">
                     {chat?.user?.username} |{" "}
                     {format(chat?.created_at, "dd-MM-yyyy HH:mm:ss")}
                   </h1>
+
+                  {
+                    chat.fileurl && <Image src={chat.fileurl} width={1000} height={1000} alt="Failed To Load" className="rounded md-w-[70%] w-[99%] max-w-[300px] md-mx-0 mx-auto object-contain h-auto  p-5" />
+                  }
                   <span className="dark:text-neutral-200 text-neutral-800">
                     {chat?.message}
                   </span>

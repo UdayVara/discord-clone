@@ -55,7 +55,7 @@ function Join({ params }: { params: { id: string } }) {
             height={1000}
             className="w-44 h-44 object-contain block mx-auto dark:bg-neutral-950 mt-4 rounded-full p-2"
             alt="Failed To Load"
-            src={`${process.env.BACKEND_URL}/${server.serverImage}`}
+            src={`${server.serverImage}`}
           />
           <h5 className="text-center text-lg mt-2">{server.name}</h5>
           <div className="button-wrapper flex flex-row items-center justify-center gap-5 mt-7">
