@@ -4,7 +4,7 @@ import { signoutUser } from "@/actions/Auth.action";
 import { redirect } from "next/navigation";
 
 const axiosInstance = axios.create({
-  baseURL: `${process.env.BACKEND_URL}`// process.env.API_BASE_URL,
+  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}`// process.env.API_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use(
@@ -46,7 +46,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async function (error) {
-    console.log('axios error:', error.response?.data);
+    console.log('axios error:', error);
     if(error.response?.data?.statusCode == 401){
       await signoutUser()
       
