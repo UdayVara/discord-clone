@@ -4,7 +4,7 @@ import { signoutUser } from "@/actions/Auth.action";
 import { redirect } from "next/navigation";
 
 const axiosInstance = axios.create({
-  baseURL: `${process.env.API_URL || "http://localhost:5000/api/v1"}`// process.env.API_BASE_URL,
+  baseURL: `${process.env.BACKEND_URL}`// process.env.API_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use(
