@@ -139,14 +139,14 @@ function ChatHeader() {
             
             <h3
               className={`${
-                socket.connected
-                  ? socket.io.engine.transport.name == "websocket"
+                socket?.connected
+                  ? socket?.io?.engine?.transport?.name == "websocket"
                     ? "bg-green-600 "
                     : "bg-yellow-600"
                   : "bg-red-600"
               } py-2 px-3 rounded-xl text-sm`}
             >
-              {socket && socket.connected
+              {socket && socket?.connected
                 ? socket.io.engine.transport.name || "Connected"
                 : "Not Connected"}
             </h3>

@@ -46,7 +46,7 @@ function ChannelCard({
   const selectedChannel = useSelector((store:RootState)=>store.channel)
 
   useEffect(() => {
-    if (channel.id != "" && !selectedChannel.isPersonal) {
+    if (channel.id != "" && !selectedChannel.isPersonal && socket) {
       socket.emit("join", {
         channelId: selectedChannel.channelId,
       });

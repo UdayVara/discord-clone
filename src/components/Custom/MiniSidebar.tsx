@@ -49,6 +49,7 @@ function MiniSidebar() {
               userId: findServer?.userId,
             })
           );
+          router.replace(`/server/${findServer?.id}`)
         }
       } else {
         if (res.servers.length > 0) {
@@ -59,6 +60,7 @@ function MiniSidebar() {
               userId: res.servers[0].userId,
             })
           );
+          router.replace(`/server/${res?.servers[0]?.id}`)
         }
       }
     } else {
