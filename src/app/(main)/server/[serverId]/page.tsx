@@ -16,7 +16,7 @@ export default function Page({ params }: { params: { serverId: string } }) {
   const [start, setStart] = useState(false);
   return (
     <>
-      <div className="w-full h-screen flex flex-col md:pb-0 pb-20">
+      <div className="w-full h-screen flex flex-col md:pb-0 pb-16">
         {selectedChannel.channelId && selectedChannel.channelId != "" ? (
           <>
             <ChatHeader />
