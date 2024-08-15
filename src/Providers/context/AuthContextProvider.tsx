@@ -19,7 +19,7 @@ import { getUser } from "@/actions/Auth.action";
     },300)
   }, []);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  return <>{user ? <AuthContext.Provider value={user}>{children}</AuthContext.Provider> : <div>loading...</div>}</>;
 };
 
 
