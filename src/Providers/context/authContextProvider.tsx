@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "./authContext";
 import { getUser } from "@/actions/Auth.action";
 
-export const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
+ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null); // Start with `null` instead of an empty object.
 
   useEffect(() => {
@@ -19,3 +19,6 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 };
+
+
+export default UserContextProvider;
