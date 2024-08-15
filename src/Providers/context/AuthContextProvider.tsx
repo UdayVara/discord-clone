@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "./authContext";
 import { getUser } from "@/actions/Auth.action";
 
- const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+ function AuthContextProvider ({ children }: { children: React.ReactNode })  {
   const [user, setUser] = useState<any>(null); // Start with `null` instead of an empty object.
 
   useEffect(() => {
