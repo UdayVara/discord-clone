@@ -11,7 +11,7 @@ function SocketContextProvider({ children }: { children: React.ReactNode }) {
   let socketConnection = useRef<Socket | null>(null);
 
   useEffect(()=>{
-    console.debug("user",user)
+    console.debug("Socket user",user)
     if (user && user.id) {
       socketConnection.current = io(process.env.NEXT_PUBLIC_SOCKET_URL as string, {
         transports: ["websocket", "polling"],

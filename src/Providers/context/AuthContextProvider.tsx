@@ -5,8 +5,8 @@ import { AuthContext } from "./authContext";
 import { getUser } from "@/actions/Auth.action";
 
  function AuthContextProvider ({ children }: { children: React.ReactNode })  {
-  const [user, setUser] = useState<any>(null); // Start with `null` instead of an empty object.
-
+  const [user, setUser] = useState<any>(null); 
+  console.debug("Auth Context Provider Mounted")
   useEffect(() => {
     const fetchUser = async () => {
       const res = await getUser();
