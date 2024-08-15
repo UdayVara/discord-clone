@@ -4,6 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import axiosInstance from "./axios";
 
 export const AuthConfig: NextAuthConfig = {
+  secret:"thisismyrandomsecret",
   providers: [
     Credentials({
       async authorize(credentials, request) {
