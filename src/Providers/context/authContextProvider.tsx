@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { authContext } from "./authContext";
+import { AuthContext } from "./authContext";
 import { getUser } from "@/actions/Auth.action";
 
 export const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -17,5 +17,5 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
     fetchUser();
   }, []);
 
-  return <authContext.Provider value={user}>{children}</authContext.Provider>;
+  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 };
