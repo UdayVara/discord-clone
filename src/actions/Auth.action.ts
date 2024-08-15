@@ -48,8 +48,9 @@ export const signupUser = async (credentials: {
 
 export const getUser = async () => {
   try {
+    console.log("Get User Called");
     const user = await auth();
-
+    console.log("User in GetUser",user)
     return { success: true, user: user?.user };
   } catch (error) {
     return { success: false, message: "Internal Server Error" };
