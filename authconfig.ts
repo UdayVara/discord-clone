@@ -62,4 +62,5 @@ export const AuthConfig: NextAuthConfig = {
   pages: {
     signOut: "/signin",
   },
+  trustHost:true
 };
