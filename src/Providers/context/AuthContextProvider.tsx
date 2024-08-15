@@ -14,9 +14,9 @@ import { getUser } from "@/actions/Auth.action";
     setUser(res?.user || null); // Use optional chaining and start with `null`.
   };
   useEffect(() => {
-    
-
-    fetchUser();
+    setTimeout(()=>{
+      fetchUser();
+    },300)
   }, []);
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
