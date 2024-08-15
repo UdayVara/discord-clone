@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthContextProvider from "@/Providers/context/AuthContextProvider";
 import SocketContextProvider from "@/Providers/context/SocketContextProvider";
+import { useAuth } from "@/hooks/useAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = useAuth();
+
+  if (!user) {
+    return <div>Loading...</div>;  // You can show a loader or skeleton here.
+  }
   return (
     <>
       <div className="flex w-full h-screen overflow-y-hidden ">
