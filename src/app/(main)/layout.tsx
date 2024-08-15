@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = useAuth();
-
+  console.debug("user",user)
   if (!user) {
     return <div>Loading...</div>;  // You can show a loader or skeleton here.
   }
