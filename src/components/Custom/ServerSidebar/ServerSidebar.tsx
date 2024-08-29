@@ -106,7 +106,7 @@ function ServerSidebar() {
       >
         <DropdownMenu>
           <DropdownMenuTrigger className="w-full items-center flex justify-between text-base py-2 ">
-            {selectedServer.name} <MdExpandMore className="text-lg" />
+            {selectedServer.name || selectedServer.name != "" ? selectedServer.name : <span className="text-sm">No Server</span>} <MdExpandMore className="text-lg" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-44 dark:bg-neutral-950">
             {role == userRoleType.moderator && (

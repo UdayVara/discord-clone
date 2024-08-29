@@ -84,7 +84,7 @@ function Page() {
             <div>
               <h5 className="text-base font-semibold">Password</h5>
               <input
-                type="text"
+                type="password"
                 {...register("password")}
                 className="w-full py-2 px-1 border border-black rounded dark:bg-neutral-900"
               />

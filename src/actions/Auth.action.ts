@@ -36,7 +36,7 @@ export const signupUser = async (credentials: {
       redirect: false,
     });
 
-    return { success: true, message: "User Sign in Successfully" };
+    return { success: true, message: "User Sign up Successfully" };
   } catch (error: any) {
     console.log(error?.cause?.err?.message, "error");
     return {

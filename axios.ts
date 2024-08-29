@@ -48,6 +48,8 @@ axiosInstance.interceptors.response.use(
   async function (error) {
     console.log('axios error:', error);
     if(error.response?.data?.statusCode == 401){
+      const requestUrl = error.config?.url;
+      console.log('API request URL that caused 401:', requestUrl);
       await signoutUser()
       
       // console.log("Inside 403")

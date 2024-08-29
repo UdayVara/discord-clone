@@ -178,6 +178,8 @@ function ServerBody({
             </div>
           </>
         )}
+
+        {!channels && <h4 className="mt-8 dark:text-neutral-400 text-center text-sm text-neutral-800">No Channels Found</h4>}
         {/* <div className="flex flex-row items-center mt-3 justify-between">
           <h4 className="dark:text-neutral-400 text-neutral-950">
             Audio Channels
