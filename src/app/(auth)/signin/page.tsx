@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
+import { FcGoogle } from "react-icons/fc";
 
 function Page() {
   const router = useRouter();
@@ -84,6 +85,7 @@ function Page() {
           >
             Sign in
           </button>
+          <button className="dark:bg-neutral-950/80 dark:hover:bg-neutral-700 transition-all active:bg-indigo-700 w-full py-2 text-lg mt-3 rounded text-white flex flex-row items-center justify-center gap-2">Continue with    <FcGoogle size={20} /></button>
           <h5 className="text-center mt-4">
             {/* eslint-disable-next-line padded-blocks, react/no-unescaped-entities */}
             Don't Have An Account ?{" "}
