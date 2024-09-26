@@ -1,13 +1,12 @@
 "use client";
-import { getUser, signupUser } from "@/actions/Auth.action";
+import {  signupUser } from "@/actions/Auth.action";
 import { signupSchema } from "@/schemas/Auth.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
+import { useForm, } from "react-hook-form";
 import { toast } from "sonner";
 
 function Page() {
@@ -102,7 +101,7 @@ function Page() {
           >
             Sign up
           </button>
-          <button className="dark:bg-neutral-950/80 dark:hover:bg-neutral-700 transition-all active:bg-indigo-700 w-full py-2 text-lg mt-3 rounded text-white flex flex-row items-center justify-center gap-2">Continue with    <FcGoogle size={20} /></button>
+        
           <h5 className="text-center mt-4">
             Already Have An Account ?{" "}
             <Link href={"/signin"}>
